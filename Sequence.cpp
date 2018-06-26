@@ -2,6 +2,7 @@
 #include<string>
 #include<fstream>
 #include<string.h>
+#include<vector>
 #include"Sequence.h"
 using namespace std;
 
@@ -10,17 +11,12 @@ Sequence::Sequence(string filename)
     char* fi=(char*)filename.data();
     ifstream input(fi);
     string line;
-    int alength;
-
+    
     getline(input,line);
-    alength=line.length();
-    line.erase(alength-1,1);
     all=line;
 
     while(getline(input,line))
     {  
-        alength=line.length();
-        line.erase(alength-1,1);
         all+=line;
     }
 
@@ -50,7 +46,39 @@ int Sequence::numberOf(char base)
 
 string Sequence::longestConsecutive()
 {
-     
+    char *before=(char*)all.data();
+    char *p=(char*)all.data();
+    char t;
+    int max=1;
+    int count=1;
+    while(*++before)
+    {
+        if(*before==*p)
+        {
+            count++;
+            if(count>max)
+            {
+                max=count;
+                t=p[0];
+            }
+        }
+        else
+        {
+            p=before;
+            count=1;
+        }
+    }
+    
+    char *ptr=new char[max];
+    for(int i=0;i<max;i++)
+    {
+        ptr[i]=t;
+    }
+    string longest=ptr;
+    delete []ptr;
+    int len=longest.length();
+    longest.erase(max,len-max);
+    return longest;
 }
 
 string Sequence::longestRepeated()
