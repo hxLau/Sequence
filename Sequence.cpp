@@ -3,6 +3,7 @@
 #include<fstream>
 #include<string.h>
 #include<vector>
+#include<algorithm>
 #include"Sequence.h"
 using namespace std;
 
@@ -83,9 +84,34 @@ string Sequence::longestConsecutive()
 
 string Sequence::longestRepeated()
 {
-     string temp;
+     vector<string> behindstr;
+     for(int i=0;i<length();i++)
+     {
+          behindstr.push_back(all.substr(length()-i-1,i+1));
+     }
+     sort(behindstr.begin(),behindstr.end());
+     int max=0;
      string longstr;
-     
+     for(int i=0;i<behindstr.size()-1;i++)
+     {
+          string str1=behindstr[i];
+          string str2=behindstr[i+1];
+          int templen=0;
+          for(int j=0;j<min(str1.length(),str2.length());j++)
+          {
+               if(str1[j]!=str2[j])
+               { 
+                   templen=0;
+                   break;
+               }
+               else templen++;
+               if(max<templen)
+               {
+                   max=templen;
+                   longstr=str2.substr(0,max);
+               }
+          }
+     }
      return longstr;
 }
 
@@ -102,3 +128,4 @@ string Sequence::longestRepeated()
 
 
   
+

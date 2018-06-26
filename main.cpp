@@ -12,6 +12,7 @@ int main()
     cout<<mySequence.numberOf('G')<<" "<<mySequence.numberOf('C')<<" "<<mySequence.numberOf('T')<<endl;
     cout<<mySequence.longestConsecutive()<<endl;
     cout<<mySequence.longestConsecutive().length()<<endl;
+    cout<<mySequence.longestRepeated()<<endl;
     clock_t ends=clock();
     cout<<(double)(ends-start)/CLOCKS_PER_SEC<<endl;
 
