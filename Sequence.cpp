@@ -2,8 +2,10 @@
 #include<string>
 #include<fstream>
 #include<string.h>
-#include<vector>
+#include<cstring>
 #include<algorithm>
+#include<vector>
+#include<sstream>
 #include"Sequence.h"
 using namespace std;
 
@@ -31,6 +33,7 @@ int Sequence::length()
 
 int Sequence::numberOf(char base)
 {
+    
     int count=0;
     char *p=(char*)all.data();
     char *start=p;
@@ -43,6 +46,7 @@ int Sequence::numberOf(char base)
         findout=strchr(start,base);
     }
     return count;
+     
 }
 
 string Sequence::longestConsecutive()
@@ -81,7 +85,7 @@ string Sequence::longestConsecutive()
     longest.erase(max,len-max);
     return longest;
 }
-
+/*
 string Sequence::longestRepeated()
 {
      vector<string> behindstr;
@@ -100,25 +104,64 @@ string Sequence::longestRepeated()
           for(int j=0;j<min(str1.length(),str2.length());j++)
           {
                if(str1[j]!=str2[j])
-               { 
-                   templen=0;
-                   break;
+               {
+                    templen=0;
+                    break;
                }
                else templen++;
                if(max<templen)
                {
-                   max=templen;
-                   longstr=str2.substr(0,max);
+                    max=templen;
+                    longstr=str2.substr(0,max);
                }
-          }
-     }
-     return longstr;
+           }
+      }
+      return longstr;
+}
+*/
+
+int comlen(char* p,char* q)
+{
+    int i=0;
+    while(*p&&(*p++==*q++)) ++i;
+    return i;
 }
 
+int pstrcmp(const void* p1,const void* p2)
+{
+     return strcmp(*(char* const*)p1,*(char* const*)p2);
+}
 
-
-
-
+string Sequence::longestRepeated()
+{
+    int len=length();
+    char* a=new char[len+1];
+    char** c=new char*[len];
+    char* p=(char*)all.data();
+    for(int i=0;i<len;++i)
+    {
+        a[i]=p[i];
+        c[i]=&a[i];
+    }
+    c[len]=0;
+    qsort(c,len,sizeof(char*),pstrcmp);
+    int maxi=0;
+    int thislen=0;
+    int maxlen=0;
+    
+    for(int i=0;i<len-1;++i)
+    {
+        thislen=comlen(c[i],c[i+1]);
+        if(thislen>maxlen)
+        {
+           maxlen=thislen;
+           maxi=i;
+        }
+    }
+    string bb=c[maxi];
+    string aaa=bb.substr(0,maxlen);
+    return aaa;
+}
 
 
 
