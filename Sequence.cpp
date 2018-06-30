@@ -79,10 +79,9 @@ string Sequence::longestConsecutive()
     {
         ptr[i]=t;
     }
-    string longest=ptr;
+    string longe=ptr;
     delete []ptr;
-    int len=longest.length();
-    longest.erase(max,len-max);
+    string longest=longe.substr(0,max);
     return longest;
 }
 /*
@@ -120,7 +119,7 @@ string Sequence::longestRepeated()
 }
 */
 
-int comlen(char* p,char* q)
+int same(char* p,char* q)
 {
     int i=0;
     while(*p&&(*p++==*q++)) ++i;
@@ -143,7 +142,7 @@ string Sequence::longestRepeated()
         a[i]=p[i];
         c[i]=&a[i];
     }
-    c[len]=0;
+    a[len]=0;
     qsort(c,len,sizeof(char*),pstrcmp);
     int maxi=0;
     int thislen=0;
@@ -151,7 +150,7 @@ string Sequence::longestRepeated()
     
     for(int i=0;i<len-1;++i)
     {
-        thislen=comlen(c[i],c[i+1]);
+        thislen=same(c[i],c[i+1]);
         if(thislen>maxlen)
         {
            maxlen=thislen;
@@ -160,6 +159,8 @@ string Sequence::longestRepeated()
     }
     string bb=c[maxi];
     string aaa=bb.substr(0,maxlen);
+    delete []a;
+    delete []c;
     return aaa;
 }
 
